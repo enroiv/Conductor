@@ -6,9 +6,9 @@ var Scales = require('../hrmny/Scales');
 var SimpleNote = require('../hrmny/SimpleNote');
 var Accidentals = require('../hrmny/Accidentals');
 
-var cMajScale = new BaseScale(new SimpleNote('C',Accidentals.NAT),Scales.MAJOR);
-var trv = cMajScale.ascend(4,8);
+var cMajScale = new BaseScale(new SimpleNote('A',Accidentals.NAT),Scales.HRMMIN);
+var trv = cMajScale.ascend(1,8,new SimpleNote('G',Accidentals.NAT));
 trv.forEach(function(it){console.log(it.toString());});
 console.log('-----------------------');
-trv = cMajScale.descend(2,8,new SimpleNote('A',Accidentals.FLAT));
+trv = cMajScale.descend(1,8,new SimpleNote('G'/*,Accidentals.NAT*/));
 trv.forEach(function(it){console.log(it.toString());});

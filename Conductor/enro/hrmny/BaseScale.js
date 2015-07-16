@@ -31,12 +31,12 @@ var BaseScale = function(t,s){
 	var getNoteBefore = function(n){
 		
 		var it = scale.getHead().getItem();
-		var nt = tonic.step(-1*(it[0]+it[1]));
+		var nt = tonic.step(-1*(it[0]+it[2]));
 		var prevDist = n.distanceTo(nt)[0];
 		
 		do{
 			it = scale.prev().getItem();
-			nt = nt.step(-1*(it[0]+it[1]));
+			nt = nt.step(-1*(it[0]+it[2]));
 			var dist = n.distanceTo(nt)[0];
 			
 			if(prevDist === 0 || dist > prevDist){
