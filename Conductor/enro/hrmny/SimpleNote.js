@@ -11,7 +11,7 @@ var SimpleNote = function(name,accidentals){
 	var mcalc = new ModCalc(12);
 	
 	try{
-		switch(name.toUpperCase()){
+		switch((note_name = name.toUpperCase())){
 		case 'A':
 		case 'B':
 		case 'C':
@@ -19,7 +19,6 @@ var SimpleNote = function(name,accidentals){
 		case 'E':
 		case 'F':
 		case 'G':
-			note_name = name;
 			break;
 		default:
 			throw new TypeError("Wrong note name: " + name);
@@ -101,7 +100,6 @@ var SimpleNote = function(name,accidentals){
 			var offs = mcalc.add(yourPos,-1 * myPos);
 			dist = [offs, -12 + offs];
 		}
-		
 		
 		return dist;
 	};
