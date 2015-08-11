@@ -5,10 +5,10 @@ var ModalScale = require('../hrmny/ModalScale');
 var SimpleNote = require('../hrmny/SimpleNote');
 var Accidentals = require('../hrmny/Accidentals');
 
-var cIonianScale = new ModalScale(new SimpleNote('C'),ModalScale.IONIAN);
-var trv = cIonianScale.ascend(1,8/*,new SimpleNote('G',Accidentals.NAT)*/);
+var cPhrygianScale = new ModalScale(new SimpleNote('F'),ModalScale.PHRYGIAN);
+var trv = cPhrygianScale.ascend(1,8/*,new SimpleNote('G',Accidentals.NAT)*/);
 trv.forEach(function(it){console.log(it.toString());});
 console.log('-----------------------');
-var cDorianScale = new ModalScale(new SimpleNote('C'),ModalScale.DORIAN);
-trv = cDorianScale.ascend(1,8/*,new SimpleNote('G',Accidentals.NAT)*/);
+var cLocrianScale = new ModalScale(new SimpleNote('G'),ModalScale.MIXOLYDIAN);
+trv = cLocrianScale.ascend(1,8/*,new SimpleNote('G',Accidentals.NAT)*/);
 trv.forEach(function(it){console.log(it.toString());});

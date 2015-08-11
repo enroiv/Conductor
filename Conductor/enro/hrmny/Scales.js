@@ -14,8 +14,8 @@ Object.defineProperty(Scales,"MAJORARR",{value:
 	 [1,Accidentals.NAT,Accidentals.NAT],
 	 [2,Accidentals.NAT,Accidentals.NAT],
 	 [2,Accidentals.NAT,Accidentals.NAT],
-	 [2,Accidentals.NAT,Accidentals.NAT],
-	 [1,Accidentals.NAT,Accidentals.NAT]],writable:false,enumerable:true,configurable:false});
+	 [2,Accidentals.NAT,Accidentals.NAT]/*,
+	 [1,Accidentals.NAT,Accidentals.NAT]*/],writable:false,enumerable:true,configurable:false});
 
 /*
  * Natural minor scale. From tonic: F-H-F-F-H-F-F
@@ -27,8 +27,8 @@ Object.defineProperty(Scales,"NATMINARR",{value:
 	 [2,Accidentals.NAT,Accidentals.NAT],
 	 [2,Accidentals.NAT,Accidentals.NAT],
 	 [1,Accidentals.NAT,Accidentals.NAT],
-	 [2,Accidentals.NAT,Accidentals.NAT],
-	 [2,Accidentals.NAT,Accidentals.NAT]],writable:false,enumerable:true,configurable:false});
+	 [2,Accidentals.NAT,Accidentals.NAT]/*,
+	 [2,Accidentals.NAT,Accidentals.NAT]*/],writable:false,enumerable:true,configurable:false});
 
 /*
  * Harmonic minor scale. From tonic: F-H-F-F-H-FH-H
@@ -40,8 +40,8 @@ Object.defineProperty(Scales,"HRMMINARR",{value:
 	 [2,Accidentals.NAT,Accidentals.NAT],
 	 [2,Accidentals.NAT,Accidentals.NAT],
 	 [1,Accidentals.NAT,Accidentals.NAT],
-	 [2,Accidentals.SHARP,Accidentals.SHARP],
-	 [2,Accidentals.FLAT,Accidentals.FLAT]],writable:false,enumerable:true,configurable:false});
+	 [2,Accidentals.SHARP,Accidentals.SHARP]/*,
+	 [2,Accidentals.FLAT,Accidentals.FLAT]*/],writable:false,enumerable:true,configurable:false});
 
 /*
  * Melodic minor scale. From tonic: F-H-F-F-F-F-H on the way up. Same as natural minor scale

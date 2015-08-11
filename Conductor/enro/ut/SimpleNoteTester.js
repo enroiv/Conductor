@@ -115,3 +115,19 @@ assert.equal(octave[5].distanceTo(octave[1]).toString(),[8,-4].toString(),'Dista
 assert.equal(octave[9].distanceTo(octave[2]).toString(),[5,-7].toString(),'Distance from F# to B');
 assert.equal(octave[0].distanceTo(octave[7]).toString(),[7,-5].toString(),'Distance from A to E');
 assert.equal(octave[7].distanceTo(octave[0]).toString(),[5,-7].toString(),'Distance from E to A');
+
+// Alternate name tests
+assert.equal(octave[0].altName(Accidentals.DFLAT).toString(),new SimpleNote('B',Accidentals.DFLAT).toString());
+assert.equal(octave[0].altName(Accidentals.DSHARP).toString(),new SimpleNote('G',Accidentals.DSHARP).toString());
+assert.equal(octave[4].altName(Accidentals.FLAT).toString(),new SimpleNote('D',Accidentals.FLAT).toString());
+assert.equal(octave[4].altName(Accidentals.DSHARP).toString(),new SimpleNote('B',Accidentals.DSHARP).toString());
+assert.equal(octave[8].altName(Accidentals.SHARP).toString(),new SimpleNote('E',Accidentals.SHARP).toString());
+assert.equal(octave[8].altName(Accidentals.DFLAT).toString(),new SimpleNote('G',Accidentals.DFLAT).toString());
+assert.equal(octave[11].altName(Accidentals.FLAT).toString(),new SimpleNote('A',Accidentals.FLAT).toString());
+
+// Comparison tests
+assert.equal(octave[0].compare(octave[1]),-1,'A immediately precedes A#');
+assert.equal(octave[1].compare(octave[0]),1,'A# immediately follows A');
+assert.equal(octave[0].compare(octave[0]),0,'A equals A');
+assert.equal(octave[0].compare(octave[2]),-2,'A doesn\'t immediately precede or follow B');
+assert.equal(octave[2].compare(octave[0]),2,'B doesn\'t immediately precede or follow A');
