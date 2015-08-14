@@ -4,11 +4,13 @@
  * - A way to traverse the scale up and down
  * - 
  */
+var Accidentals = require('./Accidentals');
+var SimpleNote = require('./SimpleNote');
+var Scales = require('./Scales');
+var ModDoublyLinkedList = require('../utils/ModDoublyLinkedList');
+var circle = require('./CircleOfFifths');
+	
 var BaseScale = function(t,s){
-	var Accidentals = require('./Accidentals');
-	var SimpleNote = require('./SimpleNote');
-	var Scales = require('./Scales');
-	var ModDoublyLinkedList = require('../utils/ModDoublyLinkedList');
 	
 	// Throw error on invalid note.
 	if(!(t instanceof SimpleNote)){
@@ -23,23 +25,30 @@ var BaseScale = function(t,s){
 	var tonic = t;
 	var scalePattern = Scales[s];
 	
+	tonic = tonic.step(scalePattern[0][0]);
+	
+	tonic = (s === Scales.MAJOR) ? circle.cof.validate(tonic,circle.MAJ) :
+		    (s === Scales.NATMIN || s === Scales.MINOR || s === Scales.HRMMIN || s === Scales.MELMIN) ? 
+		    circle.cof.validate(tonic,circle.MIN) :
+		    tonic;
+		    
 	// Add tonic note and accidentals (modifiers) to the scale.
-	var scale = new ModDoublyLinkedList([tonic.step(scalePattern[0][0]),	// Tonic note.
+	var scale = new ModDoublyLinkedList([tonic,								// Tonic note.
 	                                     scalePattern[0][1],				// Accidentals on the way up.
 	                                     scalePattern[0][2]]);				// Accidentals on the way down.
 	
 	for(var i=1;i<scalePattern.length;i++){
 		
 		// Add remaining note and accidentals to the scale.
-		scale.add([scale.getTail()[0].step(scalePattern[i][0]),
+		scale.add([scale.getTail()[0].step(scalePattern[i][0]).altName(tonic.getAccidentals()),
 		           scalePattern[i][1],
 		           scalePattern[i][2]]);
 		
 	}
 	
-	console.log(scale.convertToString(function(it){
+	/*console.log(scale.convertToString(function(it){
 		return ' [' + it[0].toString()+','+it[1].toString()+','+it[2].toString()+'] ';
-	}));
+	}));*/
 	
 	/*
 	 * Simple note comparison auxiliary function.
@@ -72,44 +81,57 @@ var BaseScale = function(t,s){
 			pos = 0;
 		} 
 		
-		return scale.get(pos)[0].altName(note.getAccidentals());
+		var fnd = scale.get(pos);
+		var nt = fnd[0].step((sz > 0) ? fnd[1] : fnd[2]);
+		
+		return nt;
+	};
+	
+	var fixNote = function(nt,trv,stepSz,sz){
+		var last = new SimpleNote(trv[trv.length-1].getName());
+		var cand = new SimpleNote(nt.getName());
+		
+		if(Math.abs(last.distanceTo(cand)) > stepSz){
+			nt = (sz < 0) ? nt.altName(Accidentals.FLAT) : nt.altName(Accidentals.SHARP);
+		} else if(nt.getName() === trv[trv.length-1].getName()){
+			nt = (sz < 0) ? nt.altName(Accidentals.SHARP) : nt.altName(Accidentals.FLAT) ;
+		}
+		return nt;
 	};
 	
 	var addNextNote = function(trv,sz){
 		
 		var nt;
+		var stepSz;
 		
 		for(var count=0;count<Math.abs(sz);count++){
+			
 			var lnk = (sz < 0) ? scale.prev() : scale.next();
-			console.log('Next scale element is: '+lnk);
-			nt = (sz < 0) ? lnk[0].step(lnk[2]) : lnk[0].step(lnk[1]);
+			stepSz = (sz < 0)?lnk[2]:lnk[1];
+			nt = lnk[0].step(stepSz);
 			
 		}
-		console.log('Got note: '+nt+'\ttrv so far is: '+trv);
 		
-		var last = new SimpleNote(trv[trv.length-1].getName());
-		var cand = new SimpleNote(nt.getName());
-		
-		if(Math.abs(last.distanceTo(cand)) > 2){
-			nt = (sz < 0) ? nt.altName(Accidentals.FLAT) : nt.altName(Accidentals.SHARP);
-		} else if(nt.getName() === trv[trv.length-1].getName()){
-			nt = (sz < 0) ? nt.altName(Accidentals.SHARP) : nt.altName(Accidentals.FLAT) ;
-		}
+		nt = fixNote(nt,trv,stepSz,sz);
 		
 		var nAcc = nt.getAccidentals();
 		
 		var isAccCorrect = trv.reduce(function(accu,it,idx,arr){
 			var acc = it.getAccidentals();
-			return accu && (acc === Accidentals.NAT || acc === nAcc);
+			return accu && (acc === Accidentals.NAT || nAcc === Accidentals.NAT || acc === nAcc);
 		},true);
 		
 		if(!isAccCorrect){
+			
+			var lastNt;
 			trv = trv.map(function(it,idx,arr){
 				var acc = it.getAccidentals();
-				if(acc !== nAcc && acc !== Accidentals.NAT){
-					return it.altName(nAcc);
-				}
-				return it;
+				lastNt = ((acc !== nAcc && acc !== Accidentals.NAT) || 
+						(idx > 0 && (it.getName() === lastNt.getName()))) ?
+						it.altName(nAcc) :
+						it;
+				
+				return lastNt;
 			});
 		}
 		
@@ -131,15 +153,12 @@ var BaseScale = function(t,s){
 		var steps = (numSteps/numSteps !== 1) ? 8 : ((numSteps<0) ? -1*numSteps : numSteps);
 		var note = (initNote instanceof SimpleNote) ? initNote : tonic;
 		// Initialization is complete.
-		console.log('Getting initial note from: '+note+' with size: '+sz);
+		
 		note = getInitialNote(note,sz);
-		console.log('First note is: '+note+' and size is: '+sz);
 		var traversal = [note];
 		
-		console.log('Traversal is now: '+traversal+'\n---------------------\n');
 		for(var count = 1;count<steps;count++){
 			traversal = addNextNote(traversal,sz);
-			console.log('Traversal is now: '+traversal+'\n---------------------\n');
 		}
 		
 		return traversal;
@@ -165,6 +184,7 @@ var BaseScale = function(t,s){
 			return acc + it.toString()/*it.getName()+ ' '+it.getAccidentals()*/+((idx===arr.length-1)?']':',');
 		},'['));
 	};
+	
 };
 
 module.exports = BaseScale;

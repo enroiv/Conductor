@@ -3,9 +3,9 @@
  */
 var ListNode = function(it){
 		
-	if(!(it instanceof Object)){
+	/*if(!(it instanceof Object)){
 		throw new TypeError("Invalid node: "+it);
-	}
+	}*/
 	
 	var item = it;
 	var node_props = [];

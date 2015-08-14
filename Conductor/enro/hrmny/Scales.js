@@ -54,11 +54,13 @@ Object.defineProperty(Scales,"MELMINARR",{value:
 	 [2,Accidentals.NAT,Accidentals.NAT],
 	 [2,Accidentals.NAT,Accidentals.NAT],
 	 [1,Accidentals.SHARP,Accidentals.NAT],
-	 [2,Accidentals.NAT,Accidentals.NAT],
-	 [2,Accidentals.FLAT,Accidentals.NAT]],writable:false,enumerable:true,configurable:false});
+	 [2,Accidentals.SHARP,Accidentals.NAT]/*,
+	 [2,Accidentals.FLAT,Accidentals.NAT]*/],writable:false,enumerable:true,configurable:false});
 
 
 Object.defineProperty(Scales,"MAJOR",{value:"MAJORARR",writable:false,enumerable:true,configurable:false});
+
+Object.defineProperty(Scales,"MINOR",{value:"NATMINARR",writable:false,enumerable:true,configurable:false});
 
 Object.defineProperty(Scales,"NATMIN",{value:"NATMINARR",writable:false,enumerable:true,configurable:false});
 

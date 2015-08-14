@@ -218,6 +218,32 @@ var ModDoublyLinkedList = function(link){
 		return lst[idx].getItem();
 	};
 	
+	/*
+	 * Set the element indexed by the parameter.
+	 */
+	this.set=function(idx,item){
+		
+		if(idx < 0 || idx > lst.length){
+			throw new Error("Index out of bounds");
+		}
+		
+		var node = lst[idx];
+		
+		if(node.getSelf() !== idx){
+			throw new Error("Error retrieving element at "+idx);
+		}
+		
+		var newNode = new ListNode(item);
+		
+		newNode.setPrev(node.getPrev())
+			   .setNext(node.getNext())
+			   .setSelf(idx)
+			   .setNodeProperties(node.getNodeProperties());
+		
+		lst[idx] = newNode;
+		curr = idx;
+	};
+	
 	this.convertToString = function(f){
 		var it;
 		var s='';
@@ -232,6 +258,10 @@ var ModDoublyLinkedList = function(link){
 		
 		return s;
 		
+	};
+	
+	this.size = function(){
+		return lst.length;
 	};
 };
 

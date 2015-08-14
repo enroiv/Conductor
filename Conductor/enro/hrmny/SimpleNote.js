@@ -124,6 +124,13 @@ var SimpleNote = function(name,accidentals){
 	};
 	
 	/*
+	 * Strict equality test.
+	 */
+	this.equalsStrict = function(that){
+		return ((this.getName() === that.getName()) && (this.getAccidentals() === that.getAccidentals()));
+	};
+	
+	/*
 	 * For any note, find its distance to another note.
 	 */
 	this.distanceTo = function(that){
